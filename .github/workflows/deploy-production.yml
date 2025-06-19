@@ -42,7 +42,7 @@ jobs:
           # Source to take files from, will take all files under this path. Default is ./*
           local_path: ./build/*
           # Destination directory, where are files will be copied to
-          remote_path: /var/www/graduation-frontend
+          remote_path: /var/www/graduation-frontend/public
           # Will delete all files in the remote path before uploading
           delete_remote_files: true
           # SFTP args
