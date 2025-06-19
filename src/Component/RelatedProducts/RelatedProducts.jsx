@@ -1,6 +1,7 @@
 import React from "react";
 import { FaStar, FaTruck } from "react-icons/fa";
 import { useNavigate,Link } from "react-router-dom";
+import config from "../../config";
 
 export default function RelatedProducts({
   products = [],

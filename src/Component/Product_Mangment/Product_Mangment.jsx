@@ -6,6 +6,7 @@ import {
   FaBoxOpen, FaTags, FaDollarSign, FaUpload, FaShippingFast,
   FaInfoCircle, FaCubes, FaRuler, FaBarcode, FaRegCommentDots, FaCheckCircle
 } from "react-icons/fa";
+import config from "../../config";
 
 const iconMap = {
   title: <FaBoxOpen />, description: <FaInfoCircle />, category: <FaTags />,

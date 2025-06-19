@@ -5,6 +5,7 @@ import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import config from "../../config";
 
 export default function Signup() {
   const [apiErr, setApiErr] = useState(null);

@@ -3,6 +3,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import { FaEdit, FaTrashAlt, FaTimes, FaExclamationTriangle } from "react-icons/fa";
 import { Toaster, toast } from "react-hot-toast";
+import config from "../../config";
 
 export default function Manger_management() {
   const [users, setUsers] = useState([]);

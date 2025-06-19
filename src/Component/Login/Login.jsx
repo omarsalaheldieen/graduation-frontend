@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { AuthContext } from "../Context/AuthContext";
 import { motion } from "framer-motion";
+import config from "../../config";
 
 export default function Login() {
   const [apiErr, setApiErr] = useState(null);

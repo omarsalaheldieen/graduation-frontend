@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import axios from "axios";
+import config from "../../config";
 
 export default function ProductGrid() {
   const [products, setProducts] = useState([]);

@@ -11,6 +11,7 @@ import axios from "axios";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import { motion } from "framer-motion";
+import config from "../../config";
 
 const Navbar = ({ searchTerm, setSearchTerm }) => {
   const { userToken, userName, userRole } = useContext(AuthContext);
