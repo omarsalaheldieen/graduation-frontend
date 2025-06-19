@@ -94,7 +94,7 @@ export default function UsersTable() {
       await validationSchema.validate(updateData, { abortEarly: false });
       setErrors({});
       await axios.put(
-        `http://localhost:8080/users/${editingUser.id}`,
+        `${config.API_URL}/users/${editingUser.id}`,
         updateData,
         {
           headers: { Authorization: `Bearer ${token}` },

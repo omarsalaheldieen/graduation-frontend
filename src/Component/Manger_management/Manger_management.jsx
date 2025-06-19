@@ -28,7 +28,7 @@ export default function Manger_management() {
 
   async function fetchUsers() {
     try {
-      const response = await axios.get("http://localhost:8080/users", {
+      const response = await axios.get(`${config.API_URL}/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(response.data.data || []);
@@ -49,7 +49,7 @@ export default function Manger_management() {
     if (!deletingUser) return;
     try {
       setDeletingId(deletingUser.id);
-      await axios.delete(`http://localhost:8080/users/${deletingUser.id}`, {
+      await axios.delete(`${config.API_URL}/users/${deletingUser.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(users.filter((u) => u.id !== deletingUser.id));
@@ -86,7 +86,7 @@ export default function Manger_management() {
     try {
       await validationSchema.validate(updateData, { abortEarly: false });
       setErrors({});
-      await axios.put(`http://localhost:8080/users/${editingUser.id}`, updateData, {
+      await axios.put(`${config.API_URL}/users/${editingUser.id}`, updateData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(users.map((u) => (u.id === editingUser.id ? { ...u, ...updateData } : u)));

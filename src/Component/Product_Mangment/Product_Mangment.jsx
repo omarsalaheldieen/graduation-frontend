@@ -64,7 +64,7 @@ export default function ProductManagement() {
     }
 
     try {
-      await axios.post("http://localhost:8080/products/addProduct", formData, {
+      await axios.post(`${config.API_URL}/products/addProduct`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

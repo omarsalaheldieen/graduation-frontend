@@ -32,7 +32,7 @@ export default function Cart() {
 
     const fetchCart = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/basket", {
+        const response = await axios.get(`${config.API_URL}/basket`, {
           headers: { Authorization: `Bearer ${userToken}` },
         });
         setCartItems(response.data.data);
@@ -53,7 +53,7 @@ export default function Cart() {
   const handleRemoveFromCart = async (productId) => {
     if (userToken) {
       try {
-        await axios.delete("http://localhost:8080/basket", {
+        await axios.delete(`${config.API_URL}/basket`, {
           headers: { Authorization: `Bearer ${userToken}` },
           data: { productId },
         });
@@ -154,7 +154,7 @@ export default function Cart() {
             <Link to={`/productsdetails/${product.id}`}>
                 <img
                   className="w-full h-52 sm:h-64 object-contain transform transition-transform duration-500"
-                  src={`http://localhost:8080${product.thumbnail}`}
+                  src={`${config.API_URL}${product.thumbnail}`}
                   alt={product.name}
                 />
               </Link>

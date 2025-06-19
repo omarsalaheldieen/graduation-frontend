@@ -40,7 +40,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
 
     try {
       const promises = categories.map((cat) =>
-        axios.get(`http://localhost:8080/products/category/${cat}`)
+        axios.get(`${config.API_URL}/products/category/${cat}`)
       );
       const results = await Promise.all(promises);
       const all = results.flatMap((res) => res.data.data);
@@ -162,7 +162,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                     <div className="w-full h-64 bg-cream flex items-center justify-center overflow-hidden">
                       <img
                         className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
-                        src={`http://localhost:8080${product.thumbnail}`}
+                        src={`${config.API_URL}${product.thumbnail}`}
                         alt={product.title}
                       />
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-30 transition-opacity"></div>

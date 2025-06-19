@@ -22,7 +22,7 @@ export default function RelatedProducts({
         <div className="w-full h-64 bg-cream flex items-center justify-center overflow-hidden">
           <img
             className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
-            src={`http://localhost:8080${product.thumbnail}`}
+            src={`${config.API_URL}${product.thumbnail}`}
             alt={product.title}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-30 transition-opacity"></div>

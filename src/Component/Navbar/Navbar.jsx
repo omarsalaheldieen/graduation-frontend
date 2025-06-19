@@ -61,7 +61,7 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
       }
 
       try {
-        const response = await axios.get("http://localhost:8080/wishlist", {
+        const response = await axios.get(`${config.API_URL}/wishlist`, {
           headers: { Authorization: `Bearer ${userToken}` },
         });
         setWishlistCount(response.data.data.length);
@@ -91,7 +91,7 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
         setLoading(false);
       } else {
         try {
-          const response = await axios.get("http://localhost:8080/basket", {
+          const response = await axios.get(`${config.API_URL}/basket`, {
             headers: { Authorization: `Bearer ${userToken}` },
           });
           setCartItems(response.data.data);

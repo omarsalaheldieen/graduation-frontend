@@ -34,7 +34,7 @@ export default function Login() {
     try {
       setIsLoading(true);
       const { data } = await axios.post(
-        "http://localhost:8080/auth/login",
+        `${config.API_URL}/auth/login`,
         values
       );
       const user = data.data.user;

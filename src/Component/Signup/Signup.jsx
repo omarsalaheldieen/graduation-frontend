@@ -42,7 +42,7 @@ export default function Signup() {
     setIsLoading(true);
     try {
       const { data } = await axios.post(
-        "http://localhost:8080/auth/signup",
+        `${config.API_URL}/auth/signup`,
         values
       );
       const user = data.data.user;

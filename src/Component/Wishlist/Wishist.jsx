@@ -40,7 +40,7 @@ export default function Wishlist({ product, cart = [] }) {
 
     const fetchWishlist = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/wishlist", {
+        const response = await axios.get(`${config.API_URL}/wishlist`, {
           headers: { Authorization: `Bearer ${userToken}` },
         });
         setWishlistItems(response.data.data);
@@ -70,7 +70,7 @@ export default function Wishlist({ product, cart = [] }) {
       let updatedWishlist = [];
 
       if (userToken) {
-        await axios.delete("http://localhost:8080/wishlist", {
+        await axios.delete(`${config.API_URL}/wishlist`, {
           headers: { Authorization: `Bearer ${userToken}` },
           data: { productId },
         });
@@ -160,7 +160,7 @@ export default function Wishlist({ product, cart = [] }) {
               const product = item?.product;
               if (!product) return null;
 
-              const imageUrl = `http://localhost:8080${product?.images?.[0] || product?.thumbnail}`;
+              const imageUrl = `${config.API_URL}${product?.images?.[0] || product?.thumbnail}`;
              const isCarted = localCart.includes(Number(product?.id));
 
 
@@ -173,7 +173,7 @@ export default function Wishlist({ product, cart = [] }) {
                           <div className="w-full h-64 bg-cream flex items-center justify-center overflow-hidden">
                             <img
                               className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
-                              src={`http://localhost:8080${product.thumbnail}`}
+                              src={`${config.API_URL}${product.thumbnail}`}
                               alt={product.title}
                             />
                             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-30 transition-opacity"></div>

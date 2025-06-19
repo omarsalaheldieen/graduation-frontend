@@ -11,7 +11,7 @@ export default function Delete_Product() {
   useEffect(() => {
     async function getProducts() {
       try {
-        const response = await axios.get("http://localhost:8080/products");
+        const response = await axios.get(`${config.API_URL}/products`);
         setProducts(response?.data?.data || []);
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -25,7 +25,7 @@ export default function Delete_Product() {
     const token = localStorage.getItem("userToken");
 
     try {
-      await axios.delete("http://localhost:8080/products/deleteProduct", {
+      await axios.delete(`${config.API_URL}/products/deleteProduct`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export default function Delete_Product() {
                  <div className="w-full h-64 bg-cream flex items-center justify-center overflow-hidden">
                    <img
                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
-                     src={`http://localhost:8080${product.thumbnail}`}
+                     src={`${config.API_URL}${product.thumbnail}`}
                      alt={product.title}
                    />
                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-30 transition-opacity"></div>

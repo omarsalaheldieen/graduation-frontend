@@ -19,7 +19,7 @@ export default function ProductGrid() {
 
   async function fetchProducts() {
     try {
-      const res = await axios.get("http://localhost:8080/products");
+      const res = await axios.get(`${config.API_URL}/products`);
       const list = Array.isArray(res.data) ? res.data : res.data.data || [];
       setProducts(list);
     } catch (err) {
@@ -76,7 +76,7 @@ export default function ProductGrid() {
     }
 
     try {
-      await axios.put(`http://localhost:8080/products/${editing.id}`, fd, {
+      await axios.put(`${config.API_URL}/products/${editing.id}`, fd, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -96,7 +96,7 @@ export default function ProductGrid() {
         <div key={p.id} className="bg-white rounded-2xl shadow hover:shadow-xl transition overflow-hidden">
           <div className="h-48 bg-gray-100 flex items-center justify-center">
             <img
-              src={`http://localhost:8080${p.thumbnail}`}
+              src={`${config.API_URL}${p.thumbnail}`}
               alt={p.title}
               className="object-contain max-h-full"
             />
@@ -161,7 +161,7 @@ export default function ProductGrid() {
                     />
                   ) : form.existingThumbnail ? (
                     <img
-                      src={`http://localhost:8080${form.existingThumbnail}`}
+                      src={`${config.API_URL}${form.existingThumbnail}`}
                       className="w-24 h-24 object-cover rounded"
                     />
                   ) : null}
@@ -184,7 +184,7 @@ export default function ProductGrid() {
                   {form.existingImages.map((url, i) => (
                     <div key={`existing-${i}`} className="relative group">
                       <img
-                        src={`http://localhost:8080${url}`}
+                        src={`${config.API_URL}${url}`}
                         className="w-16 h-16 object-cover rounded"
                       />
                       <button

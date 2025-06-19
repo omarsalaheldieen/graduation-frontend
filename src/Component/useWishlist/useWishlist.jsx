@@ -13,7 +13,7 @@ const useWishlist = () => {
     const fetchWishlist = async () => {
       if (userToken) {
         try {
-          const res = await axios.get('http://localhost:8080/wishlist', {
+          const res = await axios.get(`${config.API_URL}/wishlist`, {
             headers: { Authorization: `Bearer ${userToken}` },
           });
           const items = res.data.data.map((item) => item.product.id);
@@ -35,7 +35,7 @@ const useWishlist = () => {
     if (userToken) {
       try {
         await axios.post(
-          'http://localhost:8080/wishlist',
+          `${config.API_URL}/wishlist`,
           { productId, userId },
           { headers: { Authorization: `Bearer ${userToken}` } }
         );
@@ -53,7 +53,7 @@ const useWishlist = () => {
   const removeFromWishlist = async (productId) => {
     if (userToken) {
       try {
-        await axios.delete('http://localhost:8080/wishlist', {
+        await axios.delete(`${config.API_URL}/wishlist`, {
           headers: { Authorization: `Bearer ${userToken}` },
           data: { productId },
         });
