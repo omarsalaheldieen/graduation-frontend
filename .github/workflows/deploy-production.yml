@@ -29,22 +29,11 @@ jobs:
           CI: false
 
       - name: 🚀 SFTP Deploy
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        uses: appleboy/scp-action@v0.1.4
         with:
-          # Server IP or domain
-          server: ${{ secrets.SERVER_HOST }}
-          # Server username
+          host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
-          # Port
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
           port: 22
-          # Server's private key
-          ssh_private_key: ${{ secrets.SERVER_PRIVATE_KEY }}
-          # Source to take files from, will take all files under this path. Default is ./*
-          local_path: ./build/*
-          # Destination directory, where are files will be copied to
-          remote_path: /var/www/graduation-frontend/public
-          sftp_only: true
-          # Will delete all files in the remote path before uploading
-          delete_remote_files: false
-          # SFTP args
-          sftpArgs: "-o ConnectTimeout=5"
+          source: "build/*"
+          target: "/var/www/graduation-frontend/public"
