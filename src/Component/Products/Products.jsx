@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FaStar, FaTruck } from "react-icons/fa";
+import config from "../../config";
 
 export default function ProductCard({ product, wishlist = [], cart = [] }) {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export default function ProductCard({ product, wishlist = [], cart = [] }) {
   }, [product.stock]);
 
   const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: config.API_URL,
     headers: { Authorization: `Bearer ${userToken}` },
   });
 

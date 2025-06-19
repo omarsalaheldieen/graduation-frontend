@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Products from "../Products/Products";
 import CategoriesSlider from "../Caregories slider/Caregories slider";
+import config from "../../config/index";
 
 export default function Home() {
   const { searchTerm } = useOutletContext();
@@ -17,9 +18,9 @@ export default function Home() {
     async function fetchAllData() {
       try {
         const [productsRes, wishlistRes, cartRes] = await Promise.all([
-          axios.get("http://localhost:8080/products"),
+          axios.get(`${config.API_URL}/products`),
           userToken
-            ? axios.get("http://localhost:8080/wishlist", {
+            ? axios.get(`${config.API_URL}/wishlist`, {
                 headers: { Authorization: `Bearer ${userToken}` },
               })
             : Promise.resolve({
@@ -30,7 +31,7 @@ export default function Home() {
                 },
               }),
           userToken
-            ? axios.get("http://localhost:8080/basket", {
+            ? axios.get(`${config.API_URL}/basket`, {
                 headers: { Authorization: `Bearer ${userToken}` },
               })
             : Promise.resolve({

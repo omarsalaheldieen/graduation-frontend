@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { FaTrash, FaStar, FaTruck  } from "react-icons/fa";
+import config from "../../config/index";
 
 export default function Delete_Product() {
   const [products, setProducts] = useState([]);
@@ -65,7 +66,7 @@ export default function Delete_Product() {
     <div className="px-4 py-8 md:px-10 bg-cream">
       <h1 className="font-marker text-center text-oranges my-4 text-4xl">Delete Product </h1>
       <div className="product-grid  grid grid-cols bg-cream  d-flex justify-center  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:p-28">
-        
+
         {products.map((product) => (
              <div className="relative group p-4 animate-fade-in-up">
            <div className="max-w-sm bg-cream border border-cream rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.03]">
@@ -80,11 +81,11 @@ export default function Delete_Product() {
                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-30 transition-opacity"></div>
                  </div>
                </Link>
-         
+
                <span className="absolute top-3 left-3 bg-gradient-to-r from-oranges to-peach text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-bounce">
                  {product.discountPercentage}% OFF
                </span>
-         
+
                {/* Badges */}
                <div className="absolute bottom-3 left-3 z-10 w-fit">
                  {product.stock < 15 && product.stock > 0 && (
@@ -98,7 +99,7 @@ export default function Delete_Product() {
                    </>
                  )}
                </div>
-         
+
                <button
                   className="absolute top-4 right-4 p-2 text-oranges transition-all duration-300 transform hover:scale-125"
                   aria-label="Delete Product"
@@ -107,7 +108,7 @@ export default function Delete_Product() {
                   <FaTrash className="w-6 h-6" />
                 </button>
              </div>
-         
+
              {/* Product Info */}
              <div className="p-5">
                <Link to={`productsdetails/${product.id}`}>
@@ -118,7 +119,7 @@ export default function Delete_Product() {
                <p className="text-peach text-sm mt-2 mb-4 line-clamp-2">
                  {product.description}
                </p>
-         
+
                <div className="flex items-center justify-between flex-wrap gap-2">
                  <div className="flex items-center">
                    {[...Array(5)].map((_, index) => (
@@ -137,7 +138,7 @@ export default function Delete_Product() {
                    ))}
                    <p className="ps-2 font-medium text-peach">{product.rating}</p>
                  </div>
-         
+
                  {/* Stock */}
                  <div className="flex gap-2 items-center">
                    {product.stock === 0 ? (
@@ -162,7 +163,7 @@ export default function Delete_Product() {
                    )}
                  </div>
                </div>
-         
+
                {/* Price */}
                <div className="mt-4 mb-4 flex items-center gap-3">
                  <span className="text-3xl font-extrabold text-primary">

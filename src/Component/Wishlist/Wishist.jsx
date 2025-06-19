@@ -10,6 +10,7 @@ import {
   FaStar,
   FaTruck,
 } from "react-icons/fa";
+import config from "../../config";
 
 const safeJsonParse = (value, fallback = []) => {
   try {
@@ -98,7 +99,7 @@ export default function Wishlist({ product, cart = [] }) {
     }
 
     const axiosInstance = axios.create({
-      baseURL: "http://localhost:8080",
+      baseURL: config.API_URL,
       headers: { Authorization: `Bearer ${userToken}` },
     });
 
@@ -178,11 +179,11 @@ export default function Wishlist({ product, cart = [] }) {
                             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-30 transition-opacity"></div>
                           </div>
                         </Link>
-                  
+
                         <span className="absolute top-3 left-3 bg-gradient-to-r from-oranges to-peach text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-bounce">
                           {product.discountPercentage}% OFF
                         </span>
-                  
+
                         {/* Badges */}
                         <div className="absolute bottom-3 left-3 z-10 w-fit">
                           {product.stock < 15 && product.stock > 0 && (
@@ -196,7 +197,7 @@ export default function Wishlist({ product, cart = [] }) {
                             </>
                           )}
                         </div>
-                  
+
                         {/* Wishlist */}
                           <button
                         onClick={() => removeFromWishlist(product.id)}
@@ -226,7 +227,7 @@ export default function Wishlist({ product, cart = [] }) {
                         </svg>
                       </button>
                       </div>
-                  
+
                       {/* Product Info */}
                       <div className="p-5">
                         <Link to={`productsdetails/${product.id}`}>
@@ -237,7 +238,7 @@ export default function Wishlist({ product, cart = [] }) {
                         <p className="text-peach text-sm mt-2 mb-4 line-clamp-2">
                           {product.description}
                         </p>
-                  
+
                         <div className="flex items-center justify-between flex-wrap gap-2">
                           <div className="flex items-center">
                             {[...Array(5)].map((_, index) => (
@@ -256,7 +257,7 @@ export default function Wishlist({ product, cart = [] }) {
                             ))}
                             <p className="ps-2 font-medium text-peach">{product.rating}</p>
                           </div>
-                  
+
                           {/* Stock */}
                           <div className="flex gap-2 items-center">
                             {product.stock === 0 ? (
@@ -281,7 +282,7 @@ export default function Wishlist({ product, cart = [] }) {
                             )}
                           </div>
                         </div>
-                  
+
                         {/* Price */}
                         <div className="mt-4 mb-4 flex items-center gap-3">
                           <span className="text-3xl font-extrabold text-primary">
@@ -299,7 +300,7 @@ export default function Wishlist({ product, cart = [] }) {
             })}
           </div>
 
-         
+
         </div>
       ) : (
        <div className="flex flex-col items-center justify-center w-full h-3/4 py-20  text-center bg-cream rounded-3xl shadow-lg">

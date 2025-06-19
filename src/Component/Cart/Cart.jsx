@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import config from "../../config/index";
 
 export default function Cart() {
   const [CartItems, setCartItems] = useState([]);
@@ -157,7 +158,7 @@ export default function Cart() {
                   alt={product.name}
                 />
               </Link>
-               
+
               </div>
 
               {/* Product Details */}
@@ -359,6 +360,6 @@ export default function Cart() {
   </div>
 </div>
 
- 
+
   );
 }

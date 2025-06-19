@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import toast from "react-hot-toast";
 import ProductSpecification from "../ProductSpeciication/ProductSpeciication";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
+import config from "../../config";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -24,7 +25,7 @@ export default function ProductDetails() {
   const restockInDays = Math.floor(Math.random() * 8) + 3;
 
   const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: config.API_URL,
     headers: { Authorization: `Bearer ${userToken}` },
   });
 
@@ -269,7 +270,7 @@ export default function ProductDetails() {
         } hover:scale-[1.03] hover:-rotate-1`}
       >
         <span className="relative z-10 flex items-center justify-center gap-2">
-        
+
           {wishlistIds.includes(product.id) ? "Wishlisted" : "Add to Wishlist"}
         </span>
         <span className="absolute inset-0 bg-peach opacity-0 group-hover:opacity-20 transition-all duration-500 blur-lg z-0"></span>
@@ -286,7 +287,7 @@ export default function ProductDetails() {
         } hover:scale-[1.03] hover:rotate-1 ${product.stock === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
       >
         <span className="relative z-10 flex items-center justify-center gap-2">
-         
+
           {cartIds.includes(product.id) ? "In Cart" : "Add to Cart"}
         </span>
         <span className="absolute inset-0 bg-peach opacity-0 group-hover:opacity-20 transition-all duration-500 blur-lg z-0"></span>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaStar, FaTruck } from "react-icons/fa";
+import config from "../../config/index.js";
 
 export default function Furniture() {
   const [products, setProducts] = useState([]);
@@ -16,7 +17,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
   const navigate = useNavigate();
 
   const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: config.API_URL,
     headers: { Authorization: `Bearer ${userToken}` },
   });
 
@@ -34,12 +35,12 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
       "furniture",
       "home-decoration",
       "kitchen-accessories",
-     
+
     ];
 
     try {
       const promises = categories.map((cat) =>
-        axios.get(`http://localhost:8080/products/category/${cat}`)
+        axios.get(`${config.API_URL}/products/category/${cat}`)
       );
       const results = await Promise.all(promises);
       const all = results.flatMap((res) => res.data.data);
@@ -152,7 +153,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
            {products.map((product) => {
              const isWishlisted = wishlist.includes(product.id);
              const isCarted = cart.includes(product.id);
-   
+
              return (
                  <div className="relative group p-4 animate-fade-in-up">
                  <div className="max-w-sm bg-cream border border-cream rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.03]">
@@ -167,11 +168,11 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-30 transition-opacity"></div>
                        </div>
                      </Link>
-               
+
                      <span className="absolute top-3 left-3 bg-gradient-to-r from-oranges to-peach text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-bounce">
                        {product.discountPercentage}% OFF
                      </span>
-               
+
                      {/* Badges */}
                      <div className="absolute bottom-3 left-3 z-10 w-fit">
                        {product.stock < 15 && product.stock > 0 && (
@@ -185,7 +186,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                          </>
                        )}
                      </div>
-               
+
                      {/* Wishlist */}
                      <button
                      onClick={() => addToWishlist(product)}
@@ -206,7 +207,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                        </svg>
                      </button>
-               
+
                      {/* Cart */}
                      <button
                        onClick={() => addToCart(product)}
@@ -231,7 +232,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                        </svg>
                      </button>
                    </div>
-               
+
                    {/* Product Info */}
                    <div className="p-5">
                      <Link to={`productsdetails/${product.id}`}>
@@ -242,7 +243,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                      <p className="text-peach text-sm mt-2 mb-4 line-clamp-2">
                        {product.description}
                      </p>
-               
+
                      <div className="flex items-center justify-between flex-wrap gap-2">
                        <div className="flex items-center">
                          {[...Array(5)].map((_, index) => (
@@ -261,7 +262,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                          ))}
                          <p className="ps-2 font-medium text-peach">{product.rating}</p>
                        </div>
-               
+
                        {/* Stock */}
                        <div className="flex gap-2 items-center">
                          {product.stock === 0 ? (
@@ -286,7 +287,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                          )}
                        </div>
                      </div>
-               
+
                      {/* Price */}
                      <div className="mt-4 mb-4 flex items-center gap-3">
                        <span className="text-3xl font-extrabold text-primary">
