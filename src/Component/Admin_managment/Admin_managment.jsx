@@ -11,7 +11,6 @@ import {
 } from "react-icons/fa";
 import config from "../../config/index";
 import { Toaster, toast } from "react-hot-toast";
-import config from "../../config/index";
 import { motion } from "framer-motion";
 export default function UsersTable() {
   const [users, setUsers] = useState([]);
