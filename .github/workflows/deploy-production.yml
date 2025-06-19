@@ -35,5 +35,6 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
           port: 22
-          source: "build/"
+          source: "build/*"
           target: "/var/www/graduation-frontend/public"
+          strip_components: true
