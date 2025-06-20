@@ -159,7 +159,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
               <div className="relative group p-4 animate-fade-in-up">
               <div className="max-w-sm bg-cream border border-cream rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.03]">
                 <div className="relative">
-                  <Link to={`productsdetails/${product.id}`}>
+                  <Link to={`/productsdetails/${product.id}`}>
                     <div className="w-full h-64 bg-cream flex items-center justify-center overflow-hidden">
                       <img
                         className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
@@ -236,7 +236,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
 
                 {/* Product Info */}
                 <div className="p-5">
-                  <Link to={`productsdetails/${product.id}`}>
+                  <Link to={`/productsdetails/${product.id}`}>
                     <h5 className="text-xl font-bold font-marker text-oranges truncate">
                       {product.title}
                     </h5>

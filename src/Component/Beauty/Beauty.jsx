@@ -11,7 +11,7 @@ export default function Beauty() {
   const [cart, setCart] = useState([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-const restockInDays = Math.floor(Math.random() * 8) + 3;
+  const restockInDays = Math.floor(Math.random() * 8) + 3;
   const userToken = localStorage.getItem("userToken");
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -31,12 +31,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
   };
 
   const fetchAllBeauty = async () => {
-    const categories = [
-      "beauty",
-      "fragrances",
-      "skin-care",
-
-    ];
+    const categories = ["beauty", "fragrances", "skin-care"];
 
     try {
       const promises = categories.map((cat) =>
@@ -130,7 +125,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
     fetchAllBeauty();
   }, []);
 
- if (isLoading) {
+  if (isLoading) {
     return (
       <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-cream bg-opacity-80">
         <div className="flex space-x-2 mb-4">
@@ -146,8 +141,10 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
   }
 
   return (
-   <div className="p-16 bg-cream">
-      <h1 className="font-bold text-2xl sm:text-3xl mb-6 text-oranges font-marker text-center">Beauty Products</h1>
+    <div className="p-16 bg-cream">
+      <h1 className="font-bold text-2xl sm:text-3xl mb-6 text-oranges font-marker text-center">
+        Beauty Products
+      </h1>
       {error && <div className="error">{error}</div>}
       <div className="product-grid  grid grid-cols bg-cream  d-flex justify-center  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:p-28">
         {products.map((product) => {
@@ -155,10 +152,10 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
           const isCarted = cart.includes(product.id);
 
           return (
-              <div className="relative group p-4 animate-fade-in-up">
+            <div className="relative group p-4 animate-fade-in-up">
               <div className="max-w-sm bg-cream border border-cream rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.03]">
                 <div className="relative">
-                  <Link to={`productsdetails/${product.id}`}>
+                  <Link to={`/productsdetails/${product.id}`}>
                     <div className="w-full h-64 bg-cream flex items-center justify-center overflow-hidden">
                       <img
                         className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
@@ -189,7 +186,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
 
                   {/* Wishlist */}
                   <button
-                  onClick={() => addToWishlist(product)}
+                    onClick={() => addToWishlist(product)}
                     className="absolute top-3 right-3 p-2 transition-transform duration-300 hover:scale-110"
                     aria-label="Toggle wishlist"
                   >
@@ -235,7 +232,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
 
                 {/* Product Info */}
                 <div className="p-5">
-                  <Link to={`productsdetails/${product.id}`}>
+                  <Link to={`/productsdetails/${product.id}`}>
                     <h5 className="text-xl font-bold font-marker text-oranges truncate">
                       {product.title}
                     </h5>
@@ -260,7 +257,9 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                           <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                         </svg>
                       ))}
-                      <p className="ps-2 font-medium text-peach">{product.rating}</p>
+                      <p className="ps-2 font-medium text-peach">
+                        {product.rating}
+                      </p>
                     </div>
 
                     {/* Stock */}
@@ -294,7 +293,10 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                       ${(product.price * 20).toFixed(2)}
                     </span>
                     <span className="text-sm text-peach  strike-loop">
-                      ${(product.price * 2 + product.discountPercentage).toFixed(2)}
+                      $
+                      {(product.price * 2 + product.discountPercentage).toFixed(
+                        2
+                      )}
                     </span>
                   </div>
                 </div>

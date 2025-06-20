@@ -15,7 +15,8 @@ export default function Groceries() {
   const userToken = localStorage.getItem("userToken");
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
-const restockInDays = Math.floor(Math.random() * 8) + 3;
+  const restockInDays = Math.floor(Math.random() * 8) + 3;
+
   const axiosInstance = axios.create({
     baseURL: config.API_URL,
     headers: { Authorization: `Bearer ${userToken}` },
@@ -31,18 +32,9 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
   };
 
   const fetchAllGroceries = async () => {
-    const categories = [
-      "groceries",
-
-    ];
-
     try {
-      const promises = categories.map((cat) =>
-        axios.get(`${config.API_URL}/products/category/${cat}`)
-      );
-      const results = await Promise.all(promises);
-      const all = results.flatMap((res) => res.data.data);
-      setProducts(all);
+      const res = await axios.get(`${config.API_URL}/products/category/groceries`);
+      setProducts(res.data.data);
     } catch (err) {
       console.error("Error fetching products:", err);
       setError("Failed to load products.");
@@ -80,14 +72,14 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
           data: { productId: product.id, userId },
         });
         updated = updated.filter((id) => id !== product.id);
-        toast.success("Removed from Wishlist ");
+        toast.success("Removed from Wishlist");
       } else {
         await axiosInstance.post("/wishlist", {
           productId: product.id,
           userId,
         });
         updated.push(product.id);
-        toast.success("Added to Wishlist ");
+        toast.success("Added to Wishlist");
       }
       setWishlist(updated);
       localStorage.setItem("wishlist", JSON.stringify(updated));
@@ -128,7 +120,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
     fetchAllGroceries();
   }, []);
 
- if (isLoading) {
+  if (isLoading) {
     return (
       <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-cream bg-opacity-80">
         <div className="flex space-x-2 mb-4">
@@ -136,34 +128,33 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
           <div className="w-4 h-4 bg-orange-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
           <div className="w-4 h-4 bg-orange-600 rounded-full animate-bounce"></div>
         </div>
-        <p className="text-oranges text-lg animate-pulse">
-          Loading products...
-        </p>
+        <p className="text-oranges text-lg animate-pulse">Loading products...</p>
       </div>
     );
   }
 
   return (
     <div className="p-16 bg-cream">
-      <h1 className="font-bold text-2xl sm:text-3xl mb-6 text-oranges font-marker text-center">Groceries Products</h1>
+      <h1 className="font-bold text-2xl sm:text-3xl mb-6 text-oranges font-marker text-center">
+        Groceries Products
+      </h1>
       {error && <div className="error">{error}</div>}
-      <div className="product-grid  grid grid-cols bg-cream  d-flex justify-center  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:p-28">
+      <div className="product-grid grid grid-cols md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:p-28">
         {products.map((product) => {
           const isWishlisted = wishlist.includes(product.id);
           const isCarted = cart.includes(product.id);
 
           return (
-              <div className="relative group p-4 animate-fade-in-up">
+            <div key={product.id} className="relative group p-4 animate-fade-in-up">
               <div className="max-w-sm bg-cream border border-cream rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.03]">
                 <div className="relative">
-                  <Link to={`productsdetails/${product.id}`}>
+                  <Link to={`/productsdetails/${product.id}`}>
                     <div className="w-full h-64 bg-cream flex items-center justify-center overflow-hidden">
                       <img
                         className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                         src={`${config.API_URL}${product.thumbnail}`}
                         alt={product.title}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-30 transition-opacity"></div>
                     </div>
                   </Link>
 
@@ -171,7 +162,6 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                     {product.discountPercentage}% OFF
                   </span>
 
-                  {/* Badges */}
                   <div className="absolute bottom-3 left-3 z-10 w-fit">
                     {product.stock < 15 && product.stock > 0 && (
                       <>
@@ -185,16 +175,13 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                     )}
                   </div>
 
-                  {/* Wishlist */}
                   <button
-                  onClick={() => addToWishlist(product)}
+                    onClick={() => addToWishlist(product)}
                     className="absolute top-3 right-3 p-2 transition-transform duration-300 hover:scale-110"
                     aria-label="Toggle wishlist"
                   >
                     <svg
-                      className={`w-6 h-6 ${
-                        isWishlisted ? "text-oranges" : "text-[#FF7601]"
-                      }`}
+                      className={`w-6 h-6 ${isWishlisted ? "text-oranges" : "text-[#FF7601]"}`}
                       viewBox="0 0 24 24"
                       fill={isWishlisted ? "#FF7601" : "none"}
                       stroke={isWishlisted ? "#FF7601" : "#FF7601"}
@@ -206,19 +193,14 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                     </svg>
                   </button>
 
-                  {/* Cart */}
                   <button
                     onClick={() => addToCart(product)}
                     disabled={product.stock === 0}
-                    className={`absolute top-10 right-3 p-2 transition-transform duration-300 hover:scale-110 ${
-                      product.stock === 0 ? "cursor-not-allowed opacity-50" : ""
-                    }`}
+                    className={`absolute top-10 right-3 p-2 transition-transform duration-300 hover:scale-110 ${product.stock === 0 ? "cursor-not-allowed opacity-50" : ""}`}
                     aria-label="Add to cart"
                   >
                     <svg
-                      className={`w-6 h-8 ${
-                        isCarted ? "text-primary" : "text-[#00809D]"
-                      }`}
+                      className={`w-6 h-8 ${isCarted ? "text-primary" : "text-[#00809D]"}`}
                       viewBox="0 0 24 24"
                       fill={isCarted ? "#00809D" : "none"}
                       stroke={isCarted ? "#00809D" : "#00809D"}
@@ -231,9 +213,8 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                   </button>
                 </div>
 
-                {/* Product Info */}
                 <div className="p-5">
-                  <Link to={`productsdetails/${product.id}`}>
+                  <Link to={`/productsdetails/${product.id}`}>
                     <h5 className="text-xl font-bold font-marker text-oranges truncate">
                       {product.title}
                     </h5>
@@ -247,11 +228,7 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                       {[...Array(5)].map((_, index) => (
                         <svg
                           key={index}
-                          className={`w-5 h-5 ${
-                            index < Math.round(product.rating)
-                              ? "text-oranges animate-star-fill"
-                              : "text-peach"
-                          }`}
+                          className={`w-5 h-5 ${index < Math.round(product.rating) ? "text-oranges animate-star-fill" : "text-peach"}`}
                           fill="currentColor"
                           viewBox="0 0 22 20"
                         >
@@ -261,18 +238,15 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                       <p className="ps-2 font-medium text-peach">{product.rating}</p>
                     </div>
 
-                    {/* Stock */}
                     <div className="flex gap-2 items-center">
                       {product.stock === 0 ? (
                         <>
                           <span className="absolute px-3 py-1 text-xs font-semibold text-white bg-oranges rounded-full shadow-md uppercase animate-badge-a">
                             Out of Stock
                           </span>
-                          {restockInDays && (
-                            <span className="px-3 py-1 text-xs font-semibold bg-primary text-white rounded-full shadow-md animate-badge-b">
-                              Restock in {restockInDays} days
-                            </span>
-                          )}
+                          <span className="px-3 py-1 text-xs font-semibold bg-primary text-white rounded-full shadow-md animate-badge-b">
+                            Restock in {restockInDays} days
+                          </span>
                         </>
                       ) : product.stock < 6 ? (
                         <span className="px-3 py-1 text-xs font-semibold rounded-full shadow-md tracking-wide uppercase font-mono bg-oranges text-white animate-pulse">
@@ -286,12 +260,11 @@ const restockInDays = Math.floor(Math.random() * 8) + 3;
                     </div>
                   </div>
 
-                  {/* Price */}
                   <div className="mt-4 mb-4 flex items-center gap-3">
                     <span className="text-3xl font-extrabold text-primary">
                       ${(product.price * 20).toFixed(2)}
                     </span>
-                    <span className="text-sm text-peach  strike-loop">
+                    <span className="text-sm text-peach strike-loop">
                       ${(product.price * 2 + product.discountPercentage).toFixed(2)}
                     </span>
                   </div>
