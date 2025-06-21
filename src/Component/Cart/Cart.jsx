@@ -85,16 +85,21 @@ const [removingProductId, setRemovingProductId] = useState(null);
 };
 
 
-  const handleQuantityChange = (productId, increment) => {
+ const handleQuantityChange = (productId, increment) => {
     setCartItems((prevItems) => {
       const updatedItems = prevItems.map((item) => {
-        if (item.product.id === productId) {
+        if (item.id === productId) {
           const newQuantity = item.quantity + increment;
-          // Check stock before updating quantity
-          if (newQuantity >= 1 && newQuantity <= item.product.stock) {
+          const newStock = item.product.stock - increment;
+
+          if (newQuantity >= 1 && newStock >= 0) {
             return {
               ...item,
               quantity: newQuantity,
+              product: {
+                ...item.product,
+                stock: newStock,
+              },
             };
           }
         }
@@ -108,7 +113,6 @@ const [removingProductId, setRemovingProductId] = useState(null);
       return updatedItems;
     });
   };
-
    if (loading) {
     return (
       <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-cream ">
