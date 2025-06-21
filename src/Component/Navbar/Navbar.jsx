@@ -84,38 +84,39 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
     };
   }, [userToken]);
 
-  useEffect(() => {
-    const updateCart = async () => {
-      if (!userToken) {
-        const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-        setCartItems(savedCart);
+ useEffect(() => {
+  const updateCart = async () => {
+    if (!userToken) {
+      const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+      setCartItems(savedCart);
+      setLoading(false);
+    } else {
+      try {
+        const response = await axios.get(`${config.API_URL}/basket`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        });
+        setCartItems(response.data.data);
+      } catch (err) {
+        setError("Error fetching Cart. Please try again.");
+      } finally {
         setLoading(false);
-      } else {
-        try {
-          const response = await axios.get(`${config.API_URL}/basket`, {
-            headers: { Authorization: `Bearer ${userToken}` },
-          });
-          setCartItems(response.data.data);
-        } catch (err) {
-          setError("Error fetching Cart. Please try again.");
-        } finally {
-          setLoading(false);
-        }
       }
-    };
+    }
+  };
 
-    const handleCartUpdated = () => updateCart();
-    const handleStorage = (e) => e.key === "cart" && updateCart();
+  const handleCartUpdated = () => updateCart();
+  const handleStorage = (e) => e.key === "cart" && updateCart();
 
-    updateCart();
-    window.addEventListener("cartUpdated", handleCartUpdated);
-    window.addEventListener("storage", handleStorage);
+  updateCart();
+  window.addEventListener("cartUpdated", handleCartUpdated);
+  window.addEventListener("storage", handleStorage);
 
-    return () => {
-      window.removeEventListener("cartUpdated", handleCartUpdated);
-      window.removeEventListener("storage", handleStorage);
-    };
-  }, [userToken]);
+  return () => {
+    window.removeEventListener("cartUpdated", handleCartUpdated);
+    window.removeEventListener("storage", handleStorage);
+  };
+}, [userToken]);
+
 
   useEffect(() => {
     window.dispatchEvent(new Event("cartUpdated"));
@@ -221,12 +222,13 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
 
             {profileDropdownOpen && (
               <div className="absolute left-0 top-12 bg-cream rounded-md shadow-lg py-2 w-40 text-oranges animate-[scale-fade_300ms_ease-out_forwards]">
-                <Link
+           {userToken && !isAuthPage && (
+                 <Link
                   to="/profile"
                   className="block px-4 py-2 hover:scale-105 duration-200"
                 >
                   My Profile
-                </Link>
+                </Link>)}
                 {!isAuthPage && userToken && userToken.trim() !== "" ? (
                   <button
                     onClick={handleLogout}

@@ -10,16 +10,21 @@ export default function RelatedProducts({
   onToggleWishlist = () => {},
   onToggleCart = () => {},
 }) {
-  const navigate = useNavigate();
+   const navigate = useNavigate();
+const handleClick = (id) => {
+    navigate(`/productsdetails/${id}`); // No page reload, just route change
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Optional: scroll to top
+  };
   const restockInDays = Math.floor(Math.random() * 8) + 3;
 
-  return (
+  return <>
+      <h1 className="text-4xl  text-oranges font-marker text-center "> Related  Products </h1>
     <div className="product-grid  grid grid-cols bg-cream  d-flex justify-center  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:p-28">
       {products.map((product) => (
-        <div className="relative group p-4 animate-fade-in-up">
+        <div  onClick={() => handleClick(product.id)}className="relative group p-4 animate-fade-in-up">
   <div className="max-w-sm bg-cream border border-cream rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.03]">
     <div className="relative">
-    <Link to={`/productsdetails/${product.id}`}>
+   
         <div className="w-full h-64 bg-cream flex items-center justify-center overflow-hidden">
           <img
             className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
@@ -28,7 +33,7 @@ export default function RelatedProducts({
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-30 transition-opacity"></div>
         </div>
-      </Link>
+      
 
       <span className="absolute top-3 left-3 bg-gradient-to-r from-oranges to-peach text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-bounce">
         {product.discountPercentage}% OFF
@@ -156,10 +161,10 @@ export default function RelatedProducts({
       {/* Price */}
       <div className="mt-4 mb-4 flex items-center gap-3">
         <span className="text-3xl font-extrabold text-primary">
-          ${(product.price * 20).toFixed(2)}
+          ${(product.price * 10).toFixed(2)}
         </span>
         <span className="text-sm text-peach  strike-loop">
-          ${(product.price * 2 + product.discountPercentage).toFixed(2)}
+          ${(product.price * 10 + product.discountPercentage).toFixed(2)}
         </span>
       </div>
     </div>
@@ -167,5 +172,5 @@ export default function RelatedProducts({
 </div>
       ))}
     </div>
-  );
+  </>
 }

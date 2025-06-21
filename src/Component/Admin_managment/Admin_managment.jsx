@@ -182,7 +182,7 @@ export default function UsersTable() {
         </div>
       )}
 
-      <div className="overflow-x-auto rounded-2xl shadow-xl border border-gray-200 max-w-7xl mx-auto bg-white">
+      <div className="overflow-x-auto rounded-2xl shadow-xl border border-gray-200 max-w-7xl mx-auto bg-cream">
         <table className="min-w-full table-fixed rounded-2xl text-sm sm:text-base">
           <thead>
             <tr className="bg-oranges text-white uppercase tracking-wide">

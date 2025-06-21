@@ -13,7 +13,7 @@ import config from "../../config";
 export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(true);
   const userToken = localStorage.getItem("userToken");
   const userId = localStorage.getItem("userId");
   const [wishlistIds, setWishlistIds] = useState([]);
@@ -119,18 +119,17 @@ export default function ProductDetails() {
 
   if (error) return <div className="text-red-500 p-4">{error}</div>;
   if (!product)
-    return (
-      <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-black bg-opacity-60">
+      return (
+      <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-cream ">
         <div className="flex space-x-2 mb-4">
-          <div className="w-4 h-4 bg-green-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-          <div className="w-4 h-4 bg-green-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-          <div className="w-4 h-4 bg-green-600 rounded-full animate-bounce"></div>
+          <div className="w-4 h-4 bg-orange-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+          <div className="w-4 h-4 bg-orange-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+          <div className="w-4 h-4 bg-orange-600 rounded-full animate-bounce"></div>
         </div>
-        <p className="text-green-200 text-lg animate-pulse">
-          Loading products...
-        </p>
+        <p className="text-oranges text-lg animate-pulse">Loading  Electronics products...</p>
       </div>
     );
+  
 
   const settings = {
     dots: true,
@@ -212,10 +211,10 @@ export default function ProductDetails() {
             {/* Price */}
             <div className="flex items-center gap-4 mt-6 flex-wrap">
               <span className="text-3xl font-extrabold text-[#00809D]">
-                ${(product.price * 2).toFixed(2)}
+                ${(product.price * 10).toFixed(2)}
               </span>
               <span className="text-sm text-[#FF7601] line-through strike-loop">
-                ${(product.price * 2 + product.discountPercentage).toFixed(2)}
+                ${(product.price * 10+ product.discountPercentage).toFixed(2)}
               </span>
 
               {product.stock < 15 && (

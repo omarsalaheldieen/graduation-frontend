@@ -21,6 +21,7 @@ export default function Cart() {
   const [error, setError] = useState(null);
   const userToken = localStorage.getItem("userToken");
   const restockInDays = Math.floor(Math.random() * 8) + 3;
+const [removingProductId, setRemovingProductId] = useState(null);
 
   useEffect(() => {
     if (!userToken) {
@@ -46,30 +47,20 @@ export default function Cart() {
     fetchCart();
   }, [userToken]);
 
+  // Notify navbar/cart badge on cart items change
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("cart-updated", { detail: CartItems }));
+    window.dispatchEvent(new Event("cartUpdated"));
   }, [CartItems]);
 
-  const handleRemoveFromCart = async (productId) => {
-    if (userToken) {
-      try {
-        await axios.delete(`${config.API_URL}/basket`, {
-          headers: { Authorization: `Bearer ${userToken}` },
-          data: { productId },
-        });
+ const handleRemoveFromCart = async (productId) => {
+  setRemovingProductId(productId);
+  if (userToken) {
+    try {
+      await axios.delete(`${config.API_URL}/basket`, {
+        headers: { Authorization: `Bearer ${userToken}` },
+        data: { productId },
+      });
 
-        setCartItems((prevItems) => {
-          const updated = prevItems.filter((item) => item.product.id !== productId);
-          localStorage.setItem("cart", JSON.stringify(updated));
-          return updated;
-        });
-
-        toast.success("Removed from cart");
-      } catch {
-        setError("Error removing item from Cart.");
-        toast.error("Failed to remove from cart");
-      }
-    } else {
       setCartItems((prevItems) => {
         const updated = prevItems.filter((item) => item.product.id !== productId);
         localStorage.setItem("cart", JSON.stringify(updated));
@@ -77,24 +68,33 @@ export default function Cart() {
       });
 
       toast.success("Removed from cart");
+    } catch {
+      setError("Error removing item from Cart.");
+      toast.error("Failed to remove from cart");
     }
-  };
+  } else {
+    setCartItems((prevItems) => {
+      const updated = prevItems.filter((item) => item.product.id !== productId);
+      localStorage.setItem("cart", JSON.stringify(updated));
+      return updated;
+    });
+
+    toast.success("Removed from cart");
+  }
+  setRemovingProductId(null);
+};
+
 
   const handleQuantityChange = (productId, increment) => {
     setCartItems((prevItems) => {
       const updatedItems = prevItems.map((item) => {
-        if (item.id === productId) {
+        if (item.product.id === productId) {
           const newQuantity = item.quantity + increment;
-          const newStock = item.product.stock - increment;
-
-          if (newQuantity >= 1 && newStock >= 0) {
+          // Check stock before updating quantity
+          if (newQuantity >= 1 && newQuantity <= item.product.stock) {
             return {
               ...item,
               quantity: newQuantity,
-              product: {
-                ...item.product,
-                stock: newStock,
-              },
             };
           }
         }
@@ -111,14 +111,14 @@ export default function Cart() {
 
    if (loading) {
     return (
-      <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-cream bg-opacity-80">
+      <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-cream ">
         <div className="flex space-x-2 mb-4">
           <div className="w-4 h-4 bg-orange-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
           <div className="w-4 h-4 bg-orange-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
           <div className="w-4 h-4 bg-orange-600 rounded-full animate-bounce"></div>
         </div>
         <p className="text-oranges text-lg animate-pulse">
-          Loading products...
+          Loading Cart...
         </p>
       </div>
     );
@@ -266,21 +266,46 @@ export default function Cart() {
 
                 {/* Remove Button */}
                 <button
-                  onClick={() => handleRemoveFromCart(product.id)}
-                  className="mt-6 w-full py-3 bg-oranges text-white font-bold rounded-full transition-all transform hover:scale-105 shadow-lg flex items-center justify-center"
-                >
-                  <FaTrashAlt className="mr-2" />
-                  Remove From Cart
-                </button>
+  onClick={() => handleRemoveFromCart(product.id)}
+  className="mt-6 w-full py-3 bg-oranges text-white font-bold rounded-full transition-all transform hover:scale-105 shadow-lg flex items-center justify-center"
+  disabled={removingProductId === product.id}
+>
+  {removingProductId === product.id ? (
+    <svg
+      className="animate-spin h-5 w-5 mr-2 text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      ></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+      ></path>
+    </svg>
+  ) : (
+    <FaTrashAlt className="mr-2" />
+  )}
+  {removingProductId === product.id ? "Removing..." : "Remove From Cart"}
+</button>
+
               </div>
 
               {/* Pricing */}
               <div className="flex justify-between lg:justify-end items-end lg:flex-col gap-2">
                 <span className="text-3xl font-extrabold text-[#00809D]">
-                  ${(product.price * 2).toFixed(2)}
+                  ${(product.price * 10).toFixed(2)}
                 </span>
                 <span className="text-sm text-[#FF7601] line-through strike-loop">
-                  ${(product.price * 2 + product.discountPercentage).toFixed(2)}
+                  ${(product.price * 10 + product.discountPercentage).toFixed(2)}
                 </span>
               </div>
             </li>

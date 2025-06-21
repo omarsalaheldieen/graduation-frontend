@@ -208,9 +208,9 @@ function ProductCard({ product, wishlist = [], cart = [] }) {
           </div>
 
           <div className="mt-4 mb-4 flex items-center gap-3">
-            <span className="text-3xl font-extrabold text-primary">${(product.price * 20).toFixed(2)}</span>
+            <span className="text-3xl font-extrabold text-primary">${(product.price * 10).toFixed(2)}</span>
             <span className="text-sm text-peach strike-loop">
-              ${(product.price * 2 + product.discountPercentage).toFixed(2)}
+              ${(product.price * 10 + product.discountPercentage).toFixed(2)}
             </span>
           </div>
         </div>

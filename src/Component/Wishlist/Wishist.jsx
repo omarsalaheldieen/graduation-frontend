@@ -134,14 +134,14 @@ export default function Wishlist({ product, cart = [] }) {
 
    if (loading) {
     return (
-      <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-cream bg-opacity-80">
+      <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-cream ">
         <div className="flex space-x-2 mb-4">
           <div className="w-4 h-4 bg-orange-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
           <div className="w-4 h-4 bg-orange-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
           <div className="w-4 h-4 bg-orange-600 rounded-full animate-bounce"></div>
         </div>
         <p className="text-oranges text-lg animate-pulse">
-          Loading products...
+          Loading Wishlist...
         </p>
       </div>
     );
@@ -286,10 +286,10 @@ export default function Wishlist({ product, cart = [] }) {
                         {/* Price */}
                         <div className="mt-4 mb-4 flex items-center gap-3">
                           <span className="text-3xl font-extrabold text-primary">
-                            ${(product.price * 20).toFixed(2)}
+                            ${(product.price * 10).toFixed(2)}
                           </span>
                           <span className="text-sm text-peach  strike-loop">
-                            ${(product.price * 2 + product.discountPercentage).toFixed(2)}
+                            ${(product.price * 10 + product.discountPercentage).toFixed(2)}
                           </span>
                         </div>
                       </div>

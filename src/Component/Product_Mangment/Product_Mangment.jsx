@@ -91,11 +91,21 @@ export default function ProductManagement() {
     } catch (err) {
       const message = err.response?.data?.message || "Something went wrong.";
       Swal.fire({
-        icon: "error",
-        title: "Failed",
-        text: message,
-        confirmButtonColor: "#ef4444",
-      });
+  icon: "error",
+  title: "Failed!",
+  html: "<strong style='color:#FF7601;'>Failed to add product. Please try again.</strong>",
+  background: "#FCECDD",
+  color: "#FF7601",
+  confirmButtonText: "Okay",
+  confirmButtonColor: "#FF7601",
+  customClass: {
+    icon: "swal2-icon-orange",
+    popup: "rounded-xl shadow-lg px-6 py-8",
+    title: "text-2xl font-bold font-marker",
+    confirmButton: "text-white px-6 py-2 text-lg rounded-full",
+  },
+});
+
     }
   };
 
