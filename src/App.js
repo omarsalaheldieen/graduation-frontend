@@ -27,6 +27,9 @@ import Furniture from "./Component/Furniture/Furniture";
 import Groceries from "./Component/Groceries/Groceries";
 import Update_Product from "./Component/Update_Product/Update_Product";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
+import AddUsers from "./Component/AddUsers/AddUsers";
+import Manger_dashboard from "./Component/Manger_dashboard/Manger_dashboard";
+import MangerLayout from "./Component/Layout/MangerLayout";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -45,7 +48,8 @@ const router = createBrowserRouter([
       { path: "furniture", element: <Furniture /> },
       { path: "groceries", element: <Groceries /> },
       { path: "electronics", element: <Electronics /> },
-      { path: "manger_management", element: <Manger_management/> },
+    
+      { path: "add_users", element: <AddUsers/> },
       { path: "productsdetails/:id", element: <ProductsDetails /> },
     ],
   },
@@ -55,6 +59,19 @@ const router = createBrowserRouter([
   children: [
     { index: true, element: <Dashboard /> },
     { path: "admin", element: <AdminManagement /> },
+    { path: "product_man", element: <ProductManagement /> },
+    { path: "delete_Product", element: <Delete_Product /> },
+    { path: "update_Product", element: <Update_Product /> },
+
+  ],
+},
+  {
+  path: "manger_dashboard",
+  element: <MangerLayout />,
+  children: [
+    { index: true, element: <Manger_dashboard /> },
+    { path: "manger_man", element: <Manger_management /> },
+    { path: "add_users", element: <AddUsers/> },
     { path: "product_man", element: <ProductManagement /> },
     { path: "delete_Product", element: <Delete_Product /> },
     { path: "update_Product", element: <Update_Product /> },

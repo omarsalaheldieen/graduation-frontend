@@ -211,10 +211,10 @@ export default function ProductDetails() {
             {/* Price */}
             <div className="flex items-center gap-4 mt-6 flex-wrap">
               <span className="text-3xl font-extrabold text-[#00809D]">
-                ${(product.price * 10).toFixed(2)}
+                {(product.price * 10).toFixed(2)}L.E
               </span>
               <span className="text-sm text-[#FF7601] line-through strike-loop">
-                ${(product.price * 10+ product.discountPercentage).toFixed(2)}
+                {(product.price * 10+ product.discountPercentage).toFixed(2)}L.E
               </span>
 
               {product.stock < 15 && (

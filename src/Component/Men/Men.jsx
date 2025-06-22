@@ -271,10 +271,10 @@ export default function Men() {
 
                   <div className="mt-4 mb-4 flex items-center gap-3">
                     <span className="text-3xl font-extrabold text-primary">
-                      ${(product.price * 10).toFixed(2)}
+                      {(product.price * 10).toFixed(2)}L.E
                     </span>
                     <span className="text-sm text-peach strike-loop">
-                      ${(product.price * 10 + product.discountPercentage).toFixed(2)}
+                      {(product.price * 10 + product.discountPercentage).toFixed(2)}L.E
                     </span>
                   </div>
                 </div>

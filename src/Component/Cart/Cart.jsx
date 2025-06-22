@@ -306,10 +306,10 @@ const [removingProductId, setRemovingProductId] = useState(null);
               {/* Pricing */}
               <div className="flex justify-between lg:justify-end items-end lg:flex-col gap-2">
                 <span className="text-3xl font-extrabold text-[#00809D]">
-                  ${(product.price * 10).toFixed(2)}
+                  {(product.price * 10).toFixed(2)}L.E
                 </span>
                 <span className="text-sm text-[#FF7601] line-through strike-loop">
-                  ${(product.price * 10 + product.discountPercentage).toFixed(2)}
+                  {(product.price * 10 + product.discountPercentage).toFixed(2)}L.E
                 </span>
               </div>
             </li>
@@ -357,7 +357,7 @@ const [removingProductId, setRemovingProductId] = useState(null);
           Subtotal:
         </span>
         <span className="font-semibold text-primary">
-          ${CartItems.reduce((acc, item) => acc + item.product.price * 2 * item.quantity, 0).toFixed(2)}
+          {CartItems.reduce((acc, item) => acc + item.product.price * 2 * item.quantity, 0).toFixed(2)}L.E
         </span>
       </div>
 
@@ -367,7 +367,7 @@ const [removingProductId, setRemovingProductId] = useState(null);
           Discount:
         </span>
         <span className="font-semibold text-primary">
-          -${CartItems.reduce((acc, item) => acc + item.product.discountPercentage * item.quantity, 0).toFixed(2)}
+          -{CartItems.reduce((acc, item) => acc + item.product.discountPercentage * item.quantity, 0).toFixed(2)}L.E
         </span>
       </div>
 
@@ -377,7 +377,7 @@ const [removingProductId, setRemovingProductId] = useState(null);
           Total:
         </span>
         <span className="text-oranges">
-          ${CartItems.reduce((acc, item) => (acc + (item.product.price * 2 - item.product.discountPercentage) * item.quantity), 0).toFixed(2)}
+          {CartItems.reduce((acc, item) => (acc + (item.product.price * 2 - item.product.discountPercentage) * item.quantity), 0).toFixed(2)}L.E
         </span>
       </div>
     </div>

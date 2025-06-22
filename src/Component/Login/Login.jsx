@@ -49,8 +49,8 @@ export default function Login() {
       setTimeout(() => {
         if (user.role === "admin") {
           navigate("/dashboard");
-        } else if (user.role === "manger") {
-          navigate("/manger_management");
+        } else if (user.role === "manager") {
+          navigate("/manger_dashboard");
         } else {
           navigate("/");
         }
@@ -85,7 +85,7 @@ export default function Login() {
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
           />
           <h2 className="text-4xl font-marker font-bold text-center drop-shadow-md">
-            Welcome Back
+            Welcome Backv
           </h2>
           <p className="text-base text-center mt-3 opacity-90">
             Sign in to continue your journey

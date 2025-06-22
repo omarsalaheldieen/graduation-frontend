@@ -1,37 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { FaTrash, FaStar, FaTruck  } from "react-icons/fa";
+import { FaTrash, FaStar, FaTruck, FaSearch } from "react-icons/fa";
+import { motion } from "framer-motion";
 import config from "../../config/index";
 
 export default function Delete_Product() {
   const [products, setProducts] = useState([]);
-  const restockInDays = Math.floor(Math.random() * 8) + 3;
-    const [isLoading, setIsLoading] = useState(true);
-        const [deletingProductId, setDeletingProductId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [deletingProductId, setDeletingProductId] = useState(null);
+
+  // Debounce search input to avoid too frequent filtering
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm.trim());
+    }, 400);
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
+  // Fetch products on mount
   useEffect(() => {
     async function getProducts() {
       try {
-          setIsLoading(true); // start loading
+        setIsLoading(true);
         const response = await axios.get(`${config.API_URL}/products`);
         setProducts(response?.data?.data || []);
       } catch (err) {
         console.error("Error fetching products:", err);
-
-       } finally {
-      setIsLoading(false); // Stop loading regardless of success/failure
+      } finally {
+        setIsLoading(false);
+      }
     }
-    }
-
     getProducts();
   }, []);
+
+  // Filter products based on debounced search term
+  const filteredProducts = useMemo(() => {
+    if (!debouncedSearchTerm) return products;
+    return products.filter((p) =>
+      p.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+    );
+  }, [products, debouncedSearchTerm]);
 
   const handleDelete = async (productId) => {
     const token = localStorage.getItem("userToken");
 
     try {
-            setDeletingProductId(productId); // Set loading for that product
+      setDeletingProductId(productId);
       await axios.delete(`${config.API_URL}/products/deleteProduct`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,46 +61,45 @@ export default function Delete_Product() {
       setProducts((prev) => prev.filter((p) => p.id !== productId));
 
       Swal.fire({
-       icon: "success",
-       title: " Product Deletedted!",
-       html: "<strong style='color:#FF7601;'>Your product has been deleted successfully.</strong>",
-       background: "#FCECDD",
-       color: "#FF7601",
-       confirmButtonText: "Awesome ",
-       confirmButtonColor: "#FF7601",
-       customClass: {
-         icon: "swal-success-orange",
-         popup: "rounded-xl shadow-lg px-6 py-8",
-         title: "text-2xl font-bold font-marker",
-         confirmButton: "text-white px-6 py-2 text-lg rounded-full",
-       },
-     });
+        icon: "success",
+        title: "Product Deleted!",
+        html: "<strong style='color:#FF7601;'>Your product has been deleted successfully.</strong>",
+        background: "#FCECDD",
+        color: "#FF7601",
+        confirmButtonText: "Awesome",
+        confirmButtonColor: "#FF7601",
+        customClass: {
+          icon: "swal-success-orange",
+          popup: "rounded-xl shadow-lg px-6 py-8",
+          title: "text-2xl font-bold font-marker",
+          confirmButton: "text-white px-6 py-2 text-lg rounded-full",
+        },
+      });
     } catch (err) {
-      const message =
-        err.response?.data?.message || "Failed to delete product.";
-     Swal.fire({
-  icon: "error",
-  title: "Failed!",
-  html: "<strong style='color:#FF7601;'>Failed to delete product. Please try again.</strong>",
-  background: "#FCECDD",
-  color: "#FF7601",
-  confirmButtonText: "Okay",
-  confirmButtonColor: "#FF7601",
-  customClass: {
-    icon: "swal2-icon-orange",
-    popup: "rounded-xl shadow-lg px-6 py-8",
-    title: "text-2xl font-bold font-marker",
-    confirmButton: "text-white px-6 py-2 text-lg rounded-full",
-  },
-});
-
-      } finally {
-    setDeletingProductId(null); // Clear loading state
-  }
+      Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        html: "<strong style='color:#FF7601;'>Failed to delete product. Please try again.</strong>",
+        background: "#FCECDD",
+        color: "#FF7601",
+        confirmButtonText: "Okay",
+        confirmButtonColor: "#FF7601",
+        customClass: {
+          icon: "swal2-icon-orange",
+          popup: "rounded-xl shadow-lg px-6 py-8",
+          title: "text-2xl font-bold font-marker",
+          confirmButton: "text-white px-6 py-2 text-lg rounded-full",
+        },
+      });
+    } finally {
+      setDeletingProductId(null);
+    }
   };
 
+  const restockInDays = Math.floor(Math.random() * 8) + 3;
+
   return (
-    <div className="relative">
+     <div className="relative bg-cream">
   {isLoading && (
     <div className="absolute inset-0 flex flex-col justify-center items-center z-40 bg-cream/80 backdrop-blur-sm rounded-xl">
       <div className="flex space-x-2 mb-4">
@@ -93,8 +110,43 @@ export default function Delete_Product() {
       <p className="text-oranges text-lg animate-pulse">Loading products...</p>
     </div>
   )}
+  
+       
     <div className="px-4 py-8 md:px-10  min-h-screen bg-cream">
       <h1 className="font-marker text-center text-oranges my-4 text-4xl">Delete Product </h1>
+       {/* Animated Search Bar */}
+        <motion.div
+          initial={{ width: 200, opacity: 0 }}
+          animate={{ width: "100%", opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+          className="hidden xl:flex flex-grow max-w-xl mx-auto  my-8"
+        >
+          <div className="relative w-full group">
+            <motion.input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search products..."
+              whileFocus={{
+                scale: 1.02,
+                boxShadow: "0 0 0 4px rgba(0, 128, 157, 0.2)",
+              }}
+              transition={{ type: "spring", stiffness: 180, damping: 22 }}
+              className="w-full py-2.5 pl-12 pr-4 rounded-full border border-oranges bg-cream text-primary placeholder-oranges focus:outline-none focus:border-primary transition-all duration-300"
+            />
+            <motion.div
+              animate={{ x: [0, -1.5, 1.5, -1.5, 1.5, 0] }}
+              transition={{
+                repeat: Infinity,
+                duration: 4,
+                ease: "easeInOut",
+              }}
+              className="absolute left-4 top-3 text-oranges"
+            >
+              <FaSearch />
+            </motion.div>
+          </div>
+        </motion.div>
       <div className="product-grid  grid grid-cols bg-cream  d-flex justify-center  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:p-28">
         
         {products.map((product) => (
@@ -202,10 +254,10 @@ export default function Delete_Product() {
                {/* Price */}
                <div className="mt-4 mb-4 flex items-center gap-3">
                  <span className="text-3xl font-extrabold text-primary">
-                   ${(product.price * 20).toFixed(2)}
+                   {(product.price * 20).toFixed(2)}L.E
                  </span>
                  <span className="text-sm text-peach  strike-loop">
-                   ${(product.price * 2 + product.discountPercentage).toFixed(2)}
+                   {(product.price * 2 + product.discountPercentage).toFixed(2)}L.E
                  </span>
                </div>
              </div>
